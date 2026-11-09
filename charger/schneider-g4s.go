@@ -212,7 +212,8 @@ func (wb *SchneiderG4S) ChargeDuration() (time.Duration, error) {
 		return 0, err
 	}
 
-	return time.Duration(encoding.Uint16(b)) * time.Second, nil
+	// Korrektur: Nutze Uint32 (32-Bit), da 2 Register ausgelesen werden
+	return time.Duration(encoding.Uint32(b)) * time.Second, nil
 }
 
 var _ api.Diagnosis = (*SchneiderG4S)(nil)
