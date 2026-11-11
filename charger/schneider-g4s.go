@@ -165,12 +165,12 @@ var _ api.MeterEnergy = (*SchneiderG4S)(nil)
 
 // TotalEnergy implements the api.MeterEnergy interface
 func (wb *SchneiderG4S) TotalEnergy() (float64, error) {
-    b, err := wb.conn.ReadHoldingRegisters(schneiderG4SRegEnergy, 2)
-    if err != nil {
-        return 0, err
-    }
-    // Standard Float32 nutzen, liefert meist direkt kWh
-    return float64(encoding.Float32(b)), nil
+	b, err := wb.conn.ReadHoldingRegisters(schneiderG4SRegEnergy, 2)
+	if err != nil {
+		return 0, err
+	}
+
+	return float64(encoding.Uint32(b)) / 1e3, nil
 }
 
 var _ api.PhaseCurrents = (*SchneiderG4S)(nil)
